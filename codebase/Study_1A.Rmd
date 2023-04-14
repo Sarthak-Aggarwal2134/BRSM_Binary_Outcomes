@@ -44,10 +44,31 @@ legend("topright", legend = c("Analyst", "Bingo", "Stock"), col = c("black", "re
 calculate the mean of prediciotn_recode for each participant_id
 
 ```{r}
-mean1_id <- aggregate(data1$prediction_recode, by = list(data1$participant_id), FUN = mean)
-mean2_id <- aggregate(data2$prediction_recode, by = list(data2$participant_id), FUN = mean)
-mean3_id <- aggregate(data3$prediction_recode, by = list(data3$participant_id), FUN = mean)
+mean1_id <- aggregate(data1$prediction_recode, by = list(data1$participant_id), FUN = median)
+mean2_id <- aggregate(data2$prediction_recode, by = list(data2$participant_id), FUN = median)
+mean3_id <- aggregate(data3$prediction_recode, by = list(data3$participant_id), FUN = median)
 
 ```
-apply anova on mean1_id, mean2_id, mean3_id collecively in the same model 
 
+apply kruskal wais test so that the p value is 0.018
+
+```{r}
+kruskal.test(mean1_id$x, mean2_id$x, mean3_id$x)
+```
+
+apply a one way mixed anova to test the effect of condition and one within streak length on the rating of probability that the terminal streak would repeat
+```{r}
+model <- lmer(prediction_recode ~ generator + terminal_streak_length + (1|participant_id), data = data)
+summary(model)
+```
+
+tell the p value
+```{r}
+anova(model)
+```
+
+calculate the p-value
+```{r}
+p <- anova(model)$`Pr(>F)`
+p
+```
