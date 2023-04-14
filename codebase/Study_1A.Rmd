@@ -22,7 +22,7 @@ data3 <- data[data$generator == "stock",]
 ```
 
 
-calculate the mean of prediciotn_recode for each terminwal streak from 1 to 7
+<!-- calculate the mean of prediciotn_recode for each terminwal streak from 1 to 7 -->
 
 ```{r}
 mean1 <- aggregate(data1$prediction_recode, by = list(data1$terminal_streak_length), FUN = mean)
@@ -44,10 +44,17 @@ legend("topright", legend = c("Analyst", "Bingo", "Stock"), col = c("black", "re
 calculate the mean of prediciotn_recode for each participant_id
 
 ```{r}
-mean1_id <- aggregate(data1$prediction_recode, by = list(data1$participant_id), FUN = median)
-mean2_id <- aggregate(data2$prediction_recode, by = list(data2$participant_id), FUN = median)
-mean3_id <- aggregate(data3$prediction_recode, by = list(data3$participant_id), FUN = median)
+mean1_id <- aggregate(data1$prediction_recode, by = list(data1$participant_id), FUN = mean)
+mean2_id <- aggregate(data2$prediction_recode, by = list(data2$participant_id), FUN = mean)
+mean3_id <- aggregate(data3$prediction_recode, by = list(data3$participant_id), FUN = mean)
 
+```
+
+Data is not normally distributed
+```{r}
+shapiro.test(mean1_id$x)
+shapiro.test(mean2_id$x)
+shapiro.test(mean3_id$x)
 ```
 
 apply kruskal wais test so that the p value is 0.018
@@ -58,7 +65,7 @@ kruskal.test(mean1_id$x, mean2_id$x, mean3_id$x)
 
 apply a one way mixed anova to test the effect of condition and one within streak length on the rating of probability that the terminal streak would repeat
 ```{r}
-model <- lmer(prediction_recode ~ generator + terminal_streak_length + (1|participant_id), data = data)
+model <- lm(prediction_recode ~ generator , data = data)
 summary(model)
 ```
 
@@ -66,9 +73,16 @@ tell the p value
 ```{r}
 anova(model)
 ```
-
-calculate the p-value
+calculate the effect of condition on participant predicition
 ```{r}
-p <- anova(model)$`Pr(>F)`
-p
+model1 <- lmer(prediction_recode ~ generator + (1|participant_id), data = data)
+summary(model1)
 ```
+
+tell the p value using one way mixed anova
+```{r}
+anova(model1)
+```
+
+what is p value of model 1
+```{r}
