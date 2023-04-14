@@ -1,0 +1,46 @@
+---
+author: "Sarthak"
+date: "April 10, 2019"
+output: pdf_document
+---
+<!-- load the data -->
+```{r}
+library(readxl)
+data <- read_excel("../Data/PredictingOutcomes_ParticipantPredictions.xlsx", sheet = "Study 2A")
+
+# divide the data based on the generator
+data1 <- data[data$generator == "analyst",]
+data2 <- data[data$generator == "bingo",]
+data3 <- data[data$generator == "stock",]
+```
+
+give count of entries in all three data
+```{r}
+nrow(data1)
+nrow(data2)
+nrow(data3)
+```
+
+calculate the mean of prediciotn_recode for each terminwal streak from 1 to 7
+
+print length of data1 prediciton recode and list of terminal_streak of data1
+```{r}
+length(data1$prediction_recode)
+length(data1$terminal_streak)
+```
+
+```{r}
+mean1 <- aggregate(data1$prediction_recode, by = list(data1$terminal_streak_length), FUN = mean)
+```
+```{r}
+mean2 <- aggregate(data2$prediction_recode, by = list(data2$terminal_streak_length), FUN = mean)
+mean3 <- aggregate(data3$prediction_recode, by = list(data3$terminal_streak_length), FUN = mean)
+```
+
+```{r}
+plot(mean1$Group.1,mean1$x, type = "l",ylim=c(0,100), xlab = "Terminal Streak", ylab = "Mean of Prediction Recode", main = "Mean of Prediction Recode for each Terminal Streak")
+lines(mean2$Group.1,mean2$x, col = "red")
+lines(mean3$Group.1,mean3$x,  col = "blue")
+abline(h = 50, col = "green")
+legend("topright", legend = c("Analyst", "Bingo", "Stock"), col = c("black", "red", "blue"), lty = 1:3)
+```

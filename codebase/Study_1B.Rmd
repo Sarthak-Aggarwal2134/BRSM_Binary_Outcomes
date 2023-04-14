@@ -1,0 +1,44 @@
+---
+author: "Sarthak"
+date: "April 10, 2019"
+output: pdf_document
+---
+<!-- load the data -->
+```{r}
+library(readxl)
+data <- read_excel("../Data/PredictingOutcomes_ParticipantPredictions.xlsx", sheet = "Study 1B")
+
+# divide the data based on the generator
+data1 <- data[data$generator == "analyst",]
+data2 <- data[data$generator == "bingo",]
+data3 <- data[data$generator == "stock",]
+```
+
+give count of entries in all three data
+```{r}
+nrow(data1)
+nrow(data2)
+nrow(data3)
+```
+
+calculate the proportion of participants who predicted the prediction_recode=1 for each terminal_streak_length from 1 to 7
+```{r}
+prop1 <- aggregate(data1$prediction_recode, by = list(data1$terminal_streak_length), FUN = mean)
+prop2 <- aggregate(data2$prediction_recode, by = list(data2$terminal_streak_length), FUN = mean)
+prop3 <- aggregate(data3$prediction_recode, by = list(data3$terminal_streak_length), FUN = mean)
+```
+
+```{r}
+prop1
+prop2
+prop3
+```
+
+```{r}
+plot(prop1$Group.1,prop1$x, type = "l",ylim=c(0.0,0.9), xlab = "Terminal Streak", ylab = "Proportion of Prediction Recode=1", main = "Proportion of Prediction Recode=1 for each Terminal Streak")
+lines(prop2$Group.1,prop2$x, col = "red")
+lines(prop3$Group.1,prop3$x,  col = "blue")
+abline(h = 0.5, col = "green")
+legend("topright", legend = c("Analyst", "Bingo", "Stock"), col = c("black", "red", "blue"), lty = 1:3)
+```
+
