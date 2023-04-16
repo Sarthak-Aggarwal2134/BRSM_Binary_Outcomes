@@ -10,6 +10,7 @@ library(lme4)
 library(lmerTest)
 library(car)
 library(MuMIn)
+library(afex)
 ```
 
 ```{r}
@@ -84,5 +85,14 @@ tell the p value using one way mixed anova
 anova(model1)
 ```
 
-what is p value of model 1
 ```{r}
+aov1<-aov_ez('participant_id','prediction_recode',data, between=c('generator'),within=c('terminal_streak_length'))
+aov1
+
+pairwise.t.test(data$prediction_recode, data$generator, p.adjust.method = "bonferroni")
+
+
+```
+
+```{r}
+```
