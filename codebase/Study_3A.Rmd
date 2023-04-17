@@ -64,3 +64,51 @@ pairwise.t.test(data$prediction_recode, data$generator, p.adjust.method = "bonfe
 
 
 ```
+
+```{r}
+id <- unique(data1$participant_id)
+
+slope <- c()
+
+for (i in id){
+x <- as.character(i)
+datax <- data1[data1$participant_id == x,]
+model <- lm(prediction_recode ~ terminal_streak_length, data = datax)
+slope <- c(slope, coef(model)[2])
+}
+
+hist(slope,breaks=30,xlim=c(-20,20),prob=TRUE,main="AnalystUnknown")
+curve(dnorm(x, mean = mean(slope), sd = sd(slope)), add = TRUE, col = "black")
+```
+```{r}
+id <- unique(data2$participant_id)
+
+slope <- c()
+
+for (i in id){
+x <- as.character(i)
+datax <- data2[data2$participant_id == x,]
+model <- lm(prediction_recode ~ terminal_streak_length, data = datax)
+slope <- c(slope, coef(model)[2])
+}
+
+hist(slope,breaks=30,xlim=c(-20,20),prob=TRUE,main="BingoUnknown")
+curve(dnorm(x, mean = mean(slope), sd = sd(slope)), add = TRUE, col = "black")
+```
+
+```{r}
+id <- unique(data3$participant_id)
+
+slope <- c()
+
+for (i in id){
+x <- as.character(i)
+datax <- data3[data3$participant_id == x,]
+model <- lm(prediction_recode ~ terminal_streak_length, data = datax)
+slope <- c(slope, coef(model)[2])
+}
+
+hist(slope,breaks=30,xlim=c(-20,20),prob=TRUE,main="StockUnknown")
+curve(dnorm(x, mean = mean(slope), sd = sd(slope)), add = TRUE, col = "black")
+```
+
