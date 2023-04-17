@@ -94,5 +94,35 @@ pairwise.t.test(data$prediction_recode, data$generator, p.adjust.method = "bonfe
 
 ```
 
+get an array with unique participant_id from data
 ```{r}
+id <- unique(data1$participant_id)
+model <- lm(prediction_recode ~ terminal_streak_length, data = data1)
+# summary(model)
+coef(model)[2]
 ```
+print dimension of id
+
+
+
+
+```{r}
+slope <- c()
+
+for (i in id){
+x <- as.character(i)
+datax <- data1[data1$participant_id == x,]
+model <- lm(prediction_recode ~ terminal_streak_length, data = datax)
+slope <- c(slope, coef(model)[2])
+}
+```
+
+print the slope
+```{r}
+slope
+```
+
+
+
+
+
