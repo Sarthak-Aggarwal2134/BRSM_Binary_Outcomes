@@ -21,7 +21,19 @@ print(data)
 
 create a map like data structure to store the unique participant id with there corresponding gender
 ```{r}
-map <- data.frame(unique(data$ParticipantID), data$Gender)
+map <- data.frame(unique(data$participant_id), data$gender)
+map
+```
 
+```{r}
+data1 <- read_excel("../Data/PredictingOutcomes_ParticipantPredictions.xlsx", sheet = "Study 1A")
+```
+
+append the prediction_recode and terminal_streak_length for each participant to map
+```{r}
+for (i in 1:nrow(map)) {
+  map[i, 3] <- mean(data1[data1$participant_id == map[i, 1], "prediction_recode"])
+  map[i, 4] <- mean(data1[data1$participant_id == map[i, 1], "terminal_streak_length"])
+}
 map
 ```
