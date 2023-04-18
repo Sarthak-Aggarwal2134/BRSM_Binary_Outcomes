@@ -1,0 +1,30 @@
+---
+author: "Sarthak"
+date: "April 10, 2019"
+output: pdf_document
+---
+<!-- load the data -->
+```{r}
+library(readxl)
+library(lme4)
+library(lmerTest)
+library(car)
+library(MuMIn)
+library(afex)
+```
+
+```{r}
+data <- read_excel("../Data/PredictingOutcomes_ParticipantDemographics.xlsx", sheet = "Study 1A")
+
+print(data)
+```
+
+get map of unique participant id and their corrosponding condition
+```{r}
+map <- data %>% group_by(ParticipantID) %>% summarise(gender = unique(gender))
+print(map)
+```
+
+
+
+

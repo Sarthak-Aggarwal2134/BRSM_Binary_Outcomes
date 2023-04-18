@@ -56,11 +56,43 @@ aov1<-aov_ez('participant_id','prediction_recode',data, between=c('generator'),w
 aov1
 
 pairwise.t.test(data$prediction_recode, data$generator, p.adjust.method = "bonferroni")
-
-
 ```
+```{r}
+id <- unique(data1$participant_id)
 
+slope <- c()
 
+for (i in id){
+x <- as.character(i)
+datax <- data1[data1$participant_id == x,]
+datax <- datax[datax$terminal_streak_length != "1",]
+model <- glm(prediction_recode ~ terminal_streak_length, data = datax, family = binomial)
+beta <- coef(model)[2]
+odds <- exp(beta)
+slope <- c(slope, odds-1)
+}
+
+slope <- slope
+hist(slope,breaks=30,xlim=c(-200,200),prob=TRUE,main="AnalystUnknown")
+curve(dnorm(x, mean = mean(slope), sd = sd(slope)), add = TRUE, col = "black")
+```
+logistic regression
+```{r}
+id <- unique(data2$participant_id)
+
+slope <- c()
+
+for (i in id){
+x <- as.character(i)
+datax <- data2[data2$participant_id == x,]
+model <- glm(prediction_recode ~ terminal_streak_length, data = datax)
+slope <- c(slope, coef(model)[2])
+}
+slope <- slope*500
+
+hist(slope,breaks=30,xlim=c(-200,200),prob=TRUE,main="BingoUnknown")
+curve(dnorm(x, mean = mean(slope), sd = sd(slope)), add = TRUE, col = "black")
+```
 ```{r}
 id <- unique(data3$participant_id)
 
@@ -72,9 +104,8 @@ datax <- data3[data3$participant_id == x,]
 model <- glm(prediction_recode ~ terminal_streak_length, data = datax)
 slope <- c(slope, coef(model)[2])
 }
-
+slope <- slope*500
 
 hist(slope,breaks=30,xlim=c(-200,200),prob=TRUE,main="StockUnknown")
 curve(dnorm(x, mean = mean(slope), sd = sd(slope)), add = TRUE, col = "black")
 ```
-
