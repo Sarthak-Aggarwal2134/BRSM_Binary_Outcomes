@@ -15,12 +15,6 @@ data2 <- data[data$generator == "bingo",]
 data3 <- data[data$generator == "stock",]
 ```
 
-give count of entries in all three data
-```{r}
-nrow(data1)
-nrow(data2)
-nrow(data3)
-```
 
 calculate the proportion of participants who predicted the prediction_recode=1 for each terminal_streak_length from 1 to 7
 ```{r}
@@ -29,11 +23,6 @@ prop2 <- aggregate(data2$prediction_recode, by = list(data2$terminal_streak_leng
 prop3 <- aggregate(data3$prediction_recode, by = list(data3$terminal_streak_length), FUN = mean)
 ```
 
-```{r}
-prop1
-prop2
-prop3
-```
 
 ```{r}
 plot(prop1$Group.1,prop1$x, type = "l",ylim=c(0.0,0.9), xlab = "Terminal Streak", ylab = "Proportion of Prediction Recode=1", main = "Proportion of Prediction Recode=1 for each Terminal Streak")
@@ -111,5 +100,58 @@ slope <- slope*500
 
 hist(slope,breaks=30,xlim=c(-200,200),prob=TRUE,main="StockUnknown")
 curve(dnorm(x, mean = mean(slope), sd = sd(slope)), add = TRUE, col = "black")
+```
+
+```{r}
+data_dem<- read_excel("../Data/PredictingOutcomes_ParticipantDemographics.xlsx", sheet = "Study 2B")
+
+# print(data)
+```
+
+create a map like data structure to store the unique participant id with there corresponding gender
+```{r}
+map <- data.frame(unique(data_dem$participant_id), data_dem$gender)
+colnames(map) <- c("participant_id","gender")
+# map
+```
+
+```{r}
+dataf <- data[,c(2,3,8,10)]
+# print(data1)
+```
+
+```{r}
+
+df <- merge(dataf, map, by = "participant_id")
+df_total <- df[df$gender=='0' | df$gender=='1',]
+# male <- df[df$gender=='0',]
+# female <- df[df$gender=='1',]
+# chisq.test(male$prediction_recode, female$prediction_recode,correct=FALSE)
+check <- table(df_total$gender, df_total$terminal_streak_length)
+print(check)
+test <- table(df_total$gender, df_total$prediction_recode)
+print(test)
+chisq.test(test)
+```
+
+```{r}
+df <- df_total[df_total$generator=='analyst',]
+test <- table(df$gender, df$prediction_recode)
+print(test)
+chisq.test(test)
+```
+
+```{r}
+df <- df_total[df_total$generator=='bingo',]
+test <- table(df$gender, df$prediction_recode)
+print(test)
+chisq.test(test)
+```
+
+```{r}
+df <- df_total[df_total$generator=='stock',]
+test <- table(df$gender, df$prediction_recode)
+print(test)
+chisq.test(test)
 ```
 

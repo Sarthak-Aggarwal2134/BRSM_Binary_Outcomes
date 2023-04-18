@@ -154,3 +154,4 @@ female <- df_bingo[df_bingo$gender=='1',]
 t.test(male$prediction_recode, female$prediction_recode)
 ```
 
+
