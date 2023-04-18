@@ -1,0 +1,8 @@
+```{r}
+aov1<-aov_ez('participant_id','prediction_recode',data, between=c('generator'),within=c('terminal_streak_length'))
+aov1
+
+pairwise.t.test(data$prediction_recode, data$generator, p.adjust.method = "bonferroni")
+
+
+```

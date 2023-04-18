@@ -19,12 +19,9 @@ data <- read_excel("../Data/PredictingOutcomes_ParticipantDemographics.xlsx", sh
 print(data)
 ```
 
-get map of unique participant id and their corrosponding condition
+create a map like data structure to store the unique participant id with there corresponding gender
 ```{r}
-map <- data %>% group_by(ParticipantID) %>% summarise(gender = unique(gender))
-print(map)
+map <- data.frame(unique(data$ParticipantID), data$Gender)
+
+map
 ```
-
-
-
-
