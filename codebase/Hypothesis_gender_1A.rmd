@@ -16,24 +16,53 @@ library(afex)
 ```{r}
 data <- read_excel("../Data/PredictingOutcomes_ParticipantDemographics.xlsx", sheet = "Study 1A")
 
-print(data)
+# print(data)
 ```
 
 create a map like data structure to store the unique participant id with there corresponding gender
 ```{r}
 map <- data.frame(unique(data$participant_id), data$gender)
-map
+colnames(map) <- c("participant_id","gender")
+# map
 ```
 
 ```{r}
 data1 <- read_excel("../Data/PredictingOutcomes_ParticipantPredictions.xlsx", sheet = "Study 1A")
+# only tke the data for columns participant_id, prediction_recode, prediction_recode
+data1 <- data1[,c(2,3,10)]
+# print(data1)
 ```
 
-append the prediction_recode and terminal_streak_length for each participant to map
 ```{r}
-for (i in 1:nrow(map)) {
-  map[i, 3] <- mean(data1[data1$participant_id == map[i, 1], "prediction_recode"])
-  map[i, 4] <- mean(data1[data1$participant_id == map[i, 1], "terminal_streak_length"])
-}
-map
+
+df <- merge(data1, map, by = "participant_id")
+male <- df[df$gender=='0',]
+female <- df[df$gender=='1',]
+t.test(male$prediction_recode, female$prediction_recode)
 ```
+    
+```{r}
+df_analyst <- df[df$generator=="analyst",]
+male <- df_analyst[df_analyst$gender=='0',]
+female <- df_analyst[df_analyst$gender=='1',]
+t.test(male$prediction_recode, female$prediction_recode)
+```
+
+```{r}
+df_stock <- df[df$generator=="stock",]
+male <- df_stock[df_stock$gender=='0',]
+female <- df_stock[df_stock$gender=='1',]
+t.test(male$prediction_recode, female$prediction_recode)
+```
+
+```{r}
+df_bingo <- df[df$generator=="bingo",]
+male <- df_bingo[df_bingo$gender=='0',]
+female <- df_bingo[df_bingo$gender=='1',]
+t.test(male$prediction_recode, female$prediction_recode)
+```
+
+
+
+
+

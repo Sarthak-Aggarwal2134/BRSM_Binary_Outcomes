@@ -102,3 +102,55 @@ hist(slope,breaks=30,xlim=c(-20,20),prob=TRUE,main="StockUnknown")
 curve(dnorm(x, mean = mean(slope), sd = sd(slope)), add = TRUE, col = "black")
 ```
 
+
+
+
+# Hypothesis testing
+
+```{r}
+data_dem<- read_excel("../Data/PredictingOutcomes_ParticipantDemographics.xlsx", sheet = "Study 2A")
+
+# print(data)
+```
+
+create a map like data structure to store the unique participant id with there corresponding gender
+```{r}
+map <- data.frame(unique(data_dem$participant_id), data_dem$gender)
+colnames(map) <- c("participant_id","gender")
+# map
+```
+
+```{r}
+dataf <- data[,c(2,3,10)]
+# print(data1)
+```
+
+```{r}
+
+df <- merge(dataf, map, by = "participant_id")
+male <- df[df$gender=='0',]
+female <- df[df$gender=='1',]
+t.test(male$prediction_recode, female$prediction_recode)
+```
+    
+```{r}
+df_analyst <- df[df$generator=="analyst",]
+male <- df_analyst[df_analyst$gender=='0',]
+female <- df_analyst[df_analyst$gender=='1',]
+t.test(male$prediction_recode, female$prediction_recode)
+```
+
+```{r}
+df_stock <- df[df$generator=="stock",]
+male <- df_stock[df_stock$gender=='0',]
+female <- df_stock[df_stock$gender=='1',]
+t.test(male$prediction_recode, female$prediction_recode)
+```
+
+```{r}
+df_bingo <- df[df$generator=="bingo",]
+male <- df_bingo[df_bingo$gender=='0',]
+female <- df_bingo[df_bingo$gender=='1',]
+t.test(male$prediction_recode, female$prediction_recode)
+```
+
