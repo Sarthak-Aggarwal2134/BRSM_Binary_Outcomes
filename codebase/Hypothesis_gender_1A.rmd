@@ -21,7 +21,6 @@ data <- read_excel("../Data/PredictingOutcomes_ParticipantDemographics.xlsx", sh
 
 create a map like data structure to store the unique participant id with there corresponding gender
 ```{r}
-<<<<<<< Updated upstream
 map <- data.frame(unique(data$participant_id), data$gender)
 colnames(map) <- c("participant_id","gender")
 # map
@@ -61,7 +60,6 @@ df_bingo <- df[df$generator=="bingo",]
 male <- df_bingo[df_bingo$gender=='0',]
 female <- df_bingo[df_bingo$gender=='1',]
 t.test(male$prediction_recode, female$prediction_recode)
-=======
 
 data1 <- read_excel("../Data/PredictingOutcomes_ParticipantPredictions.xlsx", sheet = "Study 1A")
 data_an <- data1[data1$generator == "analyst",]
@@ -74,13 +72,9 @@ df1 <- aggregate(data1$prediction_recode, by = list(data1$terminal_streak_length
 df_an <- aggregate(data_an$prediction_recode, by = list(data_an$terminal_streak_length,data_an$participant_id), FUN = mean)
 df_stock <- aggregate(data_stock$prediction_recode, by = list(data_stock$terminal_streak_length,data_stock$participant_id), FUN = mean)
 df_bingo <- aggregate(data_bingo$prediction_recode, by = list(data_bingo$terminal_streak_length,data_bingo$participant_id), FUN = mean)
->>>>>>> Stashed changes
+
 ```
 
-
-
-<<<<<<< Updated upstream
-=======
 change the column name of the dataframe
 ```{r}
 colnames(df1) <- c("terminal_streak_length", "participant_id", "prediction_recode")
@@ -105,9 +99,4 @@ make boxplot of the data having dots with color blue and boxplot with color yell
 library(ggplot2)
 ggplot(df1, aes(x = as.factor(terminal_streak_length), y = prediction_recode)) + geom_boxplot() +geom_point(aes(color = "red")) 
 ```
-
-correlation heatmap for participant_id vs prediction_recode
-
->>>>>>> Stashed changes
-
 
