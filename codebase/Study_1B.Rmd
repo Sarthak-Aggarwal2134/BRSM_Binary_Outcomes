@@ -11,6 +11,7 @@ library(lmerTest)
 library(car)
 library(MuMIn)
 library(afex)
+library(ggplot2)
 ```
 
 ```{r}
@@ -150,4 +151,41 @@ test <- table(df$gender, df$prediction_recode)
 print(test)
 chisq.test(test)
 ```
+#### Correlation testing and box-plot
+
+form a table with mean of prediction recode on the basis of participant_id and terminal_streak_length
+
+```{r}
+cdata <- aggregate(prediction_recode~participant_id+terminal_streak_length,data ,FUN = mean)
+cdata1 <- aggregate(data1$prediction_recode, by = list(data1$participant_id, data1$terminal_streak_length), FUN = mean)
+cdata2 <- aggregate(data2$prediction_recode, by = list(data2$participant_id, data2$terminal_streak_length), FUN = mean)
+cdata3 <- aggregate(data3$prediction_recode, by = list(data3$participant_id, data3$terminal_streak_length), FUN = mean)
+colnames(cdata) <- c(  "participant_id","terminal_streak_length","prediction_recode")
+colnames(cdata1) <- c(  "participant_id","terminal_streak_length","prediction_recode")
+colnames(cdata2) <- c(  "participant_id","terminal_streak_length","prediction_recode")
+colnames(cdata3) <- c(  "participant_id","terminal_streak_length","prediction_recode")
+nrow(cdata)
+# cdata
+```
+
+draw box plot using ggplot2
+
+```{r}
+ggplot(cdata, aes(x = as.factor(terminal_streak_length), y = prediction_recode)) +geom_boxplot(aes(color="red"))+geom_point(aes(color="green"))+stat_summary(fun = "mean", geom = "point", shape = 8,
+               size = 2, color = "blue") + ggtitle("Boxplot of prediction recode for each terminal streak length")+xlab("Terminal Streak Length")+ylab("Prediction Recode")
+```
+apply pearson correlation test on the data
+
+```{r}
+cor.test(cdata$terminal_streak_length, cdata$prediction_recode, method = "pearson")
+cor.test(cdata1$terminal_streak_length, cdata1$prediction_recode, method = "pearson")
+cor.test(cdata2$terminal_streak_length, cdata2$prediction_recode, method = "pearson")
+cor.test(cdata3$terminal_streak_length, cdata3$prediction_recode, method = "pearson")
+```
+
+
+
+
+
+
 
