@@ -74,6 +74,9 @@ tell the p value
 ```{r}
 anova(model)
 ```
+the anova is applied to the model because the data is normally distributed
+
+
 calculate the effect of condition on participant predicition
 ```{r}
 model1 <- lmer(prediction_recode ~ generator + (1|participant_id), data = data)
@@ -90,8 +93,6 @@ aov1<-aov_ez('participant_id','prediction_recode',data, between=c('generator'),w
 aov1
 
 pairwise.t.test(data$prediction_recode, data$generator, p.adjust.method = "bonferroni")
-
-
 ```
 
 ```{r}
@@ -106,7 +107,7 @@ model <- lm(prediction_recode ~ terminal_streak_length, data = datax)
 slope <- c(slope, coef(model)[2])
 }
 
-hist(slope,breaks=30,xlim=c(-20,20),prob=TRUE,main="AnalystUnknown")
+hist(slope,breaks=30,xlim=c(-20,20),prob=TRUE,main="Analyst")
 curve(dnorm(x, mean = mean(slope), sd = sd(slope)), add = TRUE, col = "black")
 ```
 ```{r}
@@ -121,7 +122,7 @@ model <- lm(prediction_recode ~ terminal_streak_length, data = datax)
 slope <- c(slope, coef(model)[2])
 }
 
-hist(slope,breaks=30,xlim=c(-20,20),prob=TRUE,main="BingoUnknown")
+hist(slope,breaks=30,xlim=c(-20,20),prob=TRUE,main="Bingo")
 curve(dnorm(x, mean = mean(slope), sd = sd(slope)), add = TRUE, col = "black")
 ```
 
@@ -137,11 +138,6 @@ model <- lm(prediction_recode ~ terminal_streak_length, data = datax)
 slope <- c(slope, coef(model)[2])
 }
 
-hist(slope,breaks=30,xlim=c(-20,20),prob=TRUE,main="StockUnknown")
+hist(slope,breaks=30,xlim=c(-20,20),prob=TRUE,main="Stock")
 curve(dnorm(x, mean = mean(slope), sd = sd(slope)), add = TRUE, col = "black")
 ```
-
-
-
-
-

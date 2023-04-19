@@ -14,7 +14,7 @@ library(afex)
 ```
 
 ```{r}
-data <- read_excel("../Data/PredictingOutcomes_ParticipantDemographics.xlsx", sheet = "Study 1A")
+data <- read_excel("../Data/PredictingOutcomes_ParticipantDemographics.xlsx", sheet = "Study 2A")
 
 # print(data)
 ```
@@ -27,7 +27,7 @@ colnames(map) <- c("participant_id","gender")
 ```
 
 ```{r}
-data1 <- read_excel("../Data/PredictingOutcomes_ParticipantPredictions.xlsx", sheet = "Study 1A")
+data1 <- read_excel("../Data/PredictingOutcomes_ParticipantPredictions.xlsx", sheet = "Study 2A")
 # only tke the data for columns participant_id, prediction_recode, prediction_recode
 data1 <- data1[,c(2,3,10)]
 # print(data1)
@@ -61,7 +61,7 @@ male <- df_bingo[df_bingo$gender=='0',]
 female <- df_bingo[df_bingo$gender=='1',]
 t.test(male$prediction_recode, female$prediction_recode)
 
-data1 <- read_excel("../Data/PredictingOutcomes_ParticipantPredictions.xlsx", sheet = "Study 1A")
+data1 <- read_excel("../Data/PredictingOutcomes_ParticipantPredictions.xlsx", sheet = "Study 2A")
 data_an <- data1[data1$generator == "analyst",]
 data_stock <- data1[data1$generator == "stock",]
 data_bingo <- data1[data1$generator == "bingo",]
@@ -108,7 +108,7 @@ colnames(map) <- c("participant_id","age")
 ```
 
 ```{r}
-data1 <- read_excel("../Data/PredictingOutcomes_ParticipantPredictions.xlsx", sheet = "Study 1A")
+data1 <- read_excel("../Data/PredictingOutcomes_ParticipantPredictions.xlsx", sheet = "Study 2A")
 # only tke the data for columns participant_id, prediction_recode, prediction_recode
 data1 <- data1[,c(2,3,8,10)]
 # print(data1)
