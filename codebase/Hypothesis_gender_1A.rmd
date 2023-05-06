@@ -11,6 +11,7 @@ library(lmerTest)
 library(car)
 library(MuMIn)
 library(afex)
+library(ggplot2)
 ```
 
 ```{r}
@@ -40,6 +41,11 @@ male <- df[df$gender=='0',]
 female <- df[df$gender=='1',]
 t.test(male$prediction_recode, female$prediction_recode)
 ```
+apply scatter gram on male and female
+```{r}
+ggplot(df, aes(x = as.factor(gender), y = prediction_recode)) + geom_boxplot() + xlab("Gender")
+```
+
     
 ```{r}
 df_analyst <- df[df$generator=="analyst",]

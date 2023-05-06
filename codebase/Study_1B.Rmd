@@ -54,10 +54,12 @@ slope <- c()
 for (i in id){
 x <- as.character(i)
 datax <- data1[data1$participant_id == x,]
-# datax <- datax[datax$terminal_streak_length != "1",]
-model <- glm(prediction_recode ~ terminal_streak_length, data = datax)
+model <- glm(prediction_recode ~ terminal_streak_length, data = datax, family = binomial)
+
 beta <- coef(model)[2]
 odds <- exp(beta)
+percent <- (odds-1)*100
+print(percent)
 slope <- c(slope, beta)
 }
 
@@ -124,12 +126,13 @@ df_total <- df[df$gender=='0' | df$gender=='1',]
 # male <- df[df$gender=='0',]
 # female <- df[df$gender=='1',]
 # chisq.test(male$prediction_recode, female$prediction_recode,correct=FALSE)
-check <- table(df_total$gender, df_total$terminal_streak_length)
-print(check)
+
 test <- table(df_total$gender, df_total$prediction_recode)
 print(test)
 chisq.test(test)
+ggplot(df_total, aes(x = as.factor(gender), y = prediction_recode)) + geom_boxplot() + xlab("Gender")
 ```
+
 
 ```{r}
 df <- df_total[df_total$generator=='analyst',]
@@ -182,12 +185,3 @@ cor.test(cdata1$terminal_streak_length, cdata1$prediction_recode, method = "pear
 cor.test(cdata2$terminal_streak_length, cdata2$prediction_recode, method = "pearson")
 cor.test(cdata3$terminal_streak_length, cdata3$prediction_recode, method = "pearson")
 ```
-
-
-
-
-
-
-
-
-
